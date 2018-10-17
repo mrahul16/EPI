@@ -11,7 +11,20 @@ typedef enum {
 } Color;
 
 void DutchFlagPartition(int pivot_index, vector<Color> *A_ptr) {
-    return;
+    vector<Color> &A = *A_ptr;
+    int low = 0, equal=0, high = A.size() - 1;
+    int pivot = A[pivot_index];
+    while(equal <= high) {
+        if(A[equal] < pivot) {
+            swap(A[equal++], A[low++]);
+        }
+        else if(A[equal] > pivot) {
+            swap(A[high--], A[equal]);
+        }
+        else {
+            equal++;
+        }
+    }
 }
 
 void DutchFlagPartitionWrapper(TimedExecutor &executor, const vector<int> &A,
