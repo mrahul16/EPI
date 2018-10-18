@@ -10,23 +10,6 @@ typedef enum {
     kRed, kWhite, kBlue
 } Color;
 
-void DutchFlagPartition(int pivot_index, vector<Color> *A_ptr) {
-    vector<Color> &A = *A_ptr;
-    int low = 0, equal=0, high = A.size() - 1;
-    int pivot = A[pivot_index];
-    while(equal <= high) {
-        if(A[equal] < pivot) {
-            swap(A[equal++], A[low++]);
-        }
-        else if(A[equal] > pivot) {
-            swap(A[high--], A[equal]);
-        }
-        else {
-            equal++;
-        }
-    }
-}
-
 void DutchFlagPartitionWrapper(TimedExecutor &executor, const vector<int> &A,
                                int pivot_idx) {
     vector<Color> colors;
@@ -61,6 +44,25 @@ void DutchFlagPartitionWrapper(TimedExecutor &executor, const vector<int> &A,
                           "th element");
     } else if (count != std::array<int, 3>{0, 0, 0}) {
         throw TestFailure("Some elements are missing from original array");
+    }
+}
+
+void DutchFlagPartition(int pivot_index, vector<Color> *A_ptr) {
+    vector<Color> &A = *A_ptr;
+    // NOTE: Check initialization of high, while condition and decrement of high
+    // Can also be high = A.size(), while(equal < high), --high
+    int low = 0, equal=0, high = A.size() - 1;
+    int pivot = A[pivot_index];
+    while(equal <= high) {
+        if(A[equal] < pivot) {
+            swap(A[equal++], A[low++]);
+        }
+        else if(A[equal] > pivot) {
+            swap(A[high--], A[equal]);
+        }
+        else {
+            equal++;
+        }
     }
 }
 
